@@ -1,0 +1,66 @@
+<?php
+		if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+
+			if (empty($_POST['news'])) {
+
+				$errorMessageNews = "*Fill all the fields";
+				$News = "";
+				$messageNews = "";
+			} else {
+
+				$News = $_POST['news'];
+
+				$errorMessage = "";
+				$messageNews = "News Updated Successfully";
+
+
+
+
+				updateNews($News);
+			}
+		}
+
+		function updateNews($News)
+		{
+			$link1 = mysqli_connect("localhost", "root", "", "log_in_info");
+
+			$News = '"' . $News;
+			$News = $News . '"';
+
+			// Check connection
+			if ($link1 === false) {
+				die("ERROR: Could not connect. " . mysqli_connect_error());
+			}
+
+			// Attempt update query execution
+			$sql1 = "INSERT INTO `news`(`news`) VALUES ($News)";
+			if (mysqli_query($link1, $sql1)) {
+			} else {
+				echo "ERROR: Could not able to execute $sql1. " . mysqli_error($link1);
+			}
+
+			// Close connection
+			mysqli_close($link1);
+		}
+
+
+		?>
+
+
+
+<h2>News</h2>
+		<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+			
+			<br><br>
+
+			News: <textarea name="news" rows="5" cols="40"></textarea>
+
+
+			<br><br>
+
+
+
+
+			<br><br><input type="submit" name="submitnews" value="Submit">
+		</form>
